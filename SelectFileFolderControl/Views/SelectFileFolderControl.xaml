@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="ASCRV.CommonControls.SelectFileFolderControl.SelectFileFolderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ASCRV.CommonClasses;assembly=CommonClasses">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхний грид с полем для отбражения пути -->
+        <Grid 
+            Grid.Row="0" 
+            Margin="0,10,0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Текстовая надпись -->
+            <TextBlock
+                Grid.Column="0"
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                FontStyle="Italic"
+                FontWeight="DemiBold"
+                Text="Путь к выбранному элементу:"/>
+
+            <!-- Поле ввода для вывода пути к  выбранному элементу -->
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                x:Name="TextBoxWithSelectedPath"/>
+
+            <!-- Блок с текстом пользователского предупреждения -->
+            <TextBlock 
+                x:Name="TextBlockWithWarning"
+                Grid.Column="1"
+                Grid.Row="1"
+                FontStyle="Italic"
+                FontSize="12"
+                Margin="10,0,0,0"
+                Foreground="Red"/>
+
+            <!-- Поле ввода для вывода пути к  выбранному элементу -->
+            <Button
+                x:Name="ButtonGoToPath"
+                Grid.Column="2"
+                Grid.Row="0"
+                Content="Перейти"
+                Click="ButtonGoToPath_OnClick"/>
+
+        </Grid>
+
+        <!-- Дерево с файлами и папками -->
+        <TreeView
+            Grid.Row="1"
+            Name="TreeViewSelectFolderFilesElements"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            TreeViewItem.Expanded="TreeViewSelectFolderFilesElements_OnExpanded"
+            ItemsSource="{Binding ListWithDirectiveFiles}">
+            <TreeView.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:CurrentDirectoryWithFiles}" ItemsSource="{Binding Path=DirectoryAndFilesElements}">
+
+                    <TextBlock VerticalAlignment="Center" Text="{Binding DirectoryName}"/>
+
+                </HierarchicalDataTemplate>
+
+                <DataTemplate DataType="{x:Type local:CurrentFile}">
+
+                    <TextBlock VerticalAlignment="Center" Text="{Binding FileName}" Visibility="{Binding FileVisibility}"/>
+
+                </DataTemplate>
+
+            </TreeView.Resources>
+        </TreeView>
+
+        <Grid 
+            Grid.Row="2" 
+            x:Name="GridWithFieldExtension"
+            Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Текстовое поле -->
+            <TextBlock
+                Grid.Column="0"
+                Margin="10"
+                Text="Выберите расширение файлов для фильтра: "
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                FontStyle="Italic"
+                FontWeight="DemiBold"/>
+
+            <!-- Поле с выбором расширения -->
+            <ComboBox
+                Grid.Column="1"
+                x:Name="ComboBoxWithFilesExtensions"
+                HorizontalAlignment="Right"
+                Width="150"
+                Margin="10"/>
+
+        </Grid>
+
+        <Grid 
+            Grid.Row="2" 
+            x:Name="GridWithTextBlockFilterExtension"
+            Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Текстовое поле -->
+            <TextBlock
+                Grid.Column="0"
+                Margin="10"
+                Text="Выбранные расширения файлов для фильтра: "
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                FontStyle="Italic"
+                FontWeight="DemiBold"/>
+
+            <!-- Поле с выбором расширения -->
+            <TextBlock
+                Grid.Column="1"
+                x:Name="TextBlockWithSelectedFiles"
+                HorizontalAlignment="Right"
+                FontWeight="SemiBold"
+                Margin="10"/>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>
